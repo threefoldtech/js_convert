@@ -2,6 +2,9 @@ from lib2to3.fixer_base import BaseFix
 from lib2to3.fixer_util import Name, Leaf, syms
 from lib2to3.pgen2 import token
 
+from config_info import check_camel_case, action_camel_case
+from config_info import camel_case_fn_list, exclude_camel_case_fn_list
+
 for sname in dir(syms):
     print (sname, getattr(syms, sname))
 
@@ -48,10 +51,17 @@ class FixCamelcaseinkls(BaseFix):
         print ("parentkls", node.parent.type, repr(node), node.parent, npp)
         print ("parentparent", type(npp), npp.type)
         if npp.type == syms.classdef:
-            print ("suite")
-            print ("children", npp.parent.children)
+            print ("classdef", dir(npp))
+            print ("children", npp.children)
+            classname = npp.children[1].value
         if not npp.type == syms.classdef:
             return False
         if camel(node.value):
+            if check_camel_case:
+                fn_name = "%s.%s" % (classname, node.value)
+                if fn_name not in camel_case_fn_list:
+                    camel_case_fn_list.append(fn_name)
+            if not action_camel_case:
+                return False
             return node
         return False
