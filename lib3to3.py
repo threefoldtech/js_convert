@@ -10,7 +10,7 @@ if __name__ == '__main__':
     #logging.basicConfig(filename=os.devnull)
 
     filename = sys.argv[1]
-    outfile = os.path.join('out', filename)
+    outfile = os.path.join('out', os.path.basename(filename))
 
     shutil.rmtree('./out', ignore_errors=True)
     os.mkdir('out')
