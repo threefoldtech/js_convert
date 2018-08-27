@@ -1,3 +1,5 @@
+import os
+
 from lib2to3.fixer_base import BaseFix
 from lib2to3.fixer_util import Name, Leaf, syms
 from lib2to3.pgen2 import token
@@ -60,7 +62,13 @@ class FixCamelcaseinkls(BaseFix):
             return False
         if camel(node.value):
             if check_camel_case:
-                fn_name = "%s.%s" % (classname, node.value)
+                if self.filename.endswith("__init__.py"):
+                    modname = os.path.dirpath(self.filename)
+                    modname = os.path.split(modname)[0]
+                else:
+                    modname = os.path.basename(self.filename)
+                    modname = os.path.splitext(modname)[0]
+                fn_name = "%s.%s.%s" % (modname, classname, node.value)
                 if fn_name not in camel_case_fn_list:
                     camel_case_fn_list.append(fn_name)
             if not action_camel_case:
