@@ -48,11 +48,13 @@ class FixCamelcaseinkls(BaseFix):
         npp = node.parent.parent.parent
         if npp is None:
             return False
-        print ("parentkls", node.parent.type, repr(node), node.parent, npp)
-        print ("parentparent", type(npp), npp.type)
+        if node.parent.type != syms.funcdef: # only fix function names
+            return False
+        #print ("parentkls", node.parent.type, repr(node), node.parent, npp)
+        #print ("parentparent", type(npp), npp.type)
         if npp.type == syms.classdef:
-            print ("classdef", dir(npp))
-            print ("children", npp.children)
+            #print ("classdef", dir(npp))
+            #print ("children", npp.children)
             classname = npp.children[1].value
         if not npp.type == syms.classdef:
             return False

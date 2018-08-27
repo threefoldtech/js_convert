@@ -13,17 +13,21 @@ if __name__ == '__main__':
     config_info.load()
 
     filename = sys.argv[1]
-    outfile = os.path.join('out', os.path.basename(filename))
+    #outfile = os.path.join('out', os.path.basename(filename))
 
     shutil.rmtree('./out', ignore_errors=True)
     os.mkdir('out')
-    shutil.copy(filename, outfile)
+    #shutil.copy(filename, outfile)
 
-    if main("js", ['--no-diffs', '-w', '-o', 'out', '-n', filename]):
+    fixname = 'camelcaseinkls'
+
+    if main("js", ['--no-diffs', '-w',
+                   '-f', fixname,
+                   '-o', 'out', '-n', filename]):
         raise Exception('py3 conversion failed')
 
-    with open(outfile) as f:
-        f = f.read()
-        print (f)
+    #with open(outfile) as f:
+    #    f = f.read()
+    #    print (f)
 
     config_info.save()

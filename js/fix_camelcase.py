@@ -8,8 +8,8 @@ class FixCamelcase(BaseFix):
     _accept_type = token.NAME
 
     def transform(self, node, results):
-        print (results)
-        print (node, dir(node))
+        #print (results)
+        #print (node, dir(node))
         fixnode = results
         fixnode.replace(Name('newname', prefix=fixnode.prefix))
 
