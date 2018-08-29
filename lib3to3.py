@@ -33,8 +33,9 @@ if __name__ == '__main__':
 
     # set this (and action_camel_case=True) to actually change
     # called functions (NOT CALLERs)
-    # config_info.action_camel_case = True
-    # fixname = 'camelcaseinkls'
+    config_info.action_camel_case = True # action the list
+    config_info.check_camel_case = False # overwrites the list (doh)
+    fixname = 'camelcaseinkls'
 
     if main("js", ['--no-diffs', '-w',
                    '-f', fixname,
