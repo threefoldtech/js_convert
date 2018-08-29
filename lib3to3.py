@@ -19,7 +19,12 @@ if __name__ == '__main__':
     os.mkdir('out')
     #shutil.copy(filename, outfile)
 
-    fixname = 'camelcaseinkls'
+    config_info.action_camel_case = True
+
+    if config_info.action_camel_case:
+        fixname = 'camelcasecaller'
+    else:
+        fixname = 'camelcaseinkls'
 
     if main("js", ['--no-diffs', '-w',
                    '-f', fixname,
