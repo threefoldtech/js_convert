@@ -26,8 +26,6 @@ if __name__ == '__main__':
     else:
         fixname = 'camelcaseinkls'
 
-    fixname = 'camelcase'
-
     if main("js", ['--no-diffs', '-w',
                    '-f', fixname,
                    '-o', 'out', '-n', filename]):

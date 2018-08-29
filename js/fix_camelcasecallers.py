@@ -24,14 +24,16 @@ class FixCamelcasecallers(BaseFix):
     _accept_type = token.NAME
 
     def transform(self, node, results):
-        print ("transform", results)
-        print (node, dir(node))
+        #print ("results transform", results)
+        #print ("transform", repr(str(node)))
         fixnode = results
         newname = camelCase(str(node))
         fixnode.replace(Name(newname, prefix=fixnode.prefix))
 
     def match(self, node):
         if not isinstance(node, Leaf):
+            return False
+        if camel(node.value): # already converted, ignore
             return False
         classname = get_container_classname(node)
         #print ("parentkls", node.parent.type, repr(node), node.parent, npp)
@@ -45,19 +47,12 @@ class FixCamelcasecallers(BaseFix):
         lineno = node.get_lineno()
         k = (str(fname), lineno, str(modname),)
         if k in camel_case_log:
-            print ("to action", k, camel_case_log[k])
-        #else:
-        #    print ("not found", classname, node.value, node.type, k)
-
-        return False
-        fn_name = "%s.%s.%s" % (modname, classname, node.value)
-        fname = strip_back_to_jumpscale_or_digitalme(self.filename)
-        lineno = node.get_lineno()
-        k = (fname, lineno, modname)
-        if k in camel_case_log:
-            print ("to action", k, camel_case_log[k])
+            ccl = camel_case_log[k]
+            print ("to action", node.value, node.type, k, "\n\t", ccl)
+            if node.value != ccl[2]: # match function name
+                return False
         else:
-            print ("not found", k)
+            #print ("not found", classname, node.value, node.type, k)
             return False
-        # actioning to be done
+
         return node
