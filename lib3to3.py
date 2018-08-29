@@ -19,6 +19,11 @@ if __name__ == '__main__':
     os.mkdir('out')
     #shutil.copy(filename, outfile)
 
+    # set this to True or False.  False to get the list of functions
+    # that *need* conversion; True to actually *do* the conversion,
+    # however a file camel_case_log.txt is required, which
+    # can only be generated through the development_dynamic
+    # JSBase.__getattr__ override
     config_info.action_camel_case = True
 
     if config_info.action_camel_case:
@@ -28,7 +33,7 @@ if __name__ == '__main__':
 
     if main("js", ['--no-diffs', '-w',
                    '-f', fixname,
-                   '-o', 'out', '-n', filename]):
+                   '-n', filename]):
         raise Exception('py3 conversion failed')
 
     #with open(outfile) as f:
