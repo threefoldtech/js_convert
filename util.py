@@ -15,6 +15,9 @@ def camel(s):
 
 def to_snake_case(not_snake_case):
     final = ''
+    while not_snake_case.startswith("_"):
+        final += "_"
+        not_snake_case = not_snake_case[1:]
     for i in range(len(not_snake_case)):
         item = not_snake_case[i]
         if i < len(not_snake_case) - 1:
@@ -29,8 +32,6 @@ def to_snake_case(not_snake_case):
             final += "_"+item.lower()
         else:
             final += item
-    if final[0] == "_":
-        final = final[1:]
     return final
 
 def strip_back_to_jumpscale_or_digitalme(fname):
