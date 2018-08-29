@@ -8,7 +8,7 @@ from config_info import check_camel_case, action_camel_case
 from config_info import (camel_case_fn_list, exclude_camel_case_fn_list,
                          camel_case_log)
 
-from util import camel, camelCase, strip_back_to_jumpscale_or_digitalme
+from util import _camel, to_snake_case, strip_back_to_jumpscale_or_digitalme
 
 for sname in dir(syms):
     print (sname, getattr(syms, sname))
@@ -22,7 +22,7 @@ class FixCamelcaseinkls(BaseFix):
         print (results)
         print (node, dir(node))
         fixnode = results
-        newname = camelCase(str(node))
+        newname = to_snake_case(str(node))
         fixnode.replace(Name(newname, prefix=fixnode.prefix))
 
     def match(self, node):
@@ -40,31 +40,28 @@ class FixCamelcaseinkls(BaseFix):
         if not npp.type == syms.classdef:
             return False
         s = node.value
-        if not camel(s):
-            # exclude some outliers
-            if s.startswith("__") and s.endswith("__"):
-                return False
-            if "_" not in s:
-                return False
-            if s.startswith("_") and "_" not in s[1:] and not camel(s[1:]):
-                print ("skip ", s)
-                return False
-            if self.filename.endswith("__init__.py"):
-                modname = os.path.dirname(self.filename)
-                modname = os.path.split(modname)[0]
-            else:
-                modname = os.path.basename(self.filename)
-                modname = os.path.splitext(modname)[0]
-            fn_name = "%s.%s.%s" % (modname, classname, node.value)
-            if check_camel_case:
-                if fn_name not in camel_case_fn_list:
-                    camel_case_fn_list.append(fn_name)
-            if not action_camel_case:
-                return False
-            # ok so we are going to action things here, but check it's
-            # in the list first
+        if not _camel(s):
+            return False
+        # exclude some outliers
+        if s.startswith("__") and s.endswith("__"):
+            return False
+        if s.startswith("_") and "_" not in s[1:] and not _camel(s[1:]):
+            return False
+        if self.filename.endswith("__init__.py"):
+            modname = os.path.dirname(self.filename)
+            modname = os.path.split(modname)[0]
+        else:
+            modname = os.path.basename(self.filename)
+            modname = os.path.splitext(modname)[0]
+        fn_name = "%s.%s.%s" % (modname, classname, node.value)
+        if check_camel_case:
             if fn_name not in camel_case_fn_list:
-                return False
-            # actioning to be done
-            return node
-        return False
+                camel_case_fn_list.append(fn_name)
+        if not action_camel_case:
+            return False
+        # ok so we are going to action things here, but check it's
+        # in the list first
+        if fn_name not in camel_case_fn_list:
+            return False
+        # actioning to be done
+        return node

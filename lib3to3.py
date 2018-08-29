@@ -24,7 +24,7 @@ if __name__ == '__main__':
     # however a file camel_case_log.txt is required, which
     # can only be generated through the development_dynamic
     # JSBase.__getattr__ override
-    config_info.action_camel_case = True
+    config_info.action_camel_case = False
 
     if config_info.action_camel_case:
         fixname = 'camelcasecallers'
@@ -33,9 +33,9 @@ if __name__ == '__main__':
 
     # set this (and action_camel_case=True) to actually change
     # called functions (NOT CALLERs)
-    config_info.action_camel_case = True # action the list
-    config_info.check_camel_case = False # overwrites the list (doh)
-    fixname = 'camelcaseinkls'
+    #config_info.action_camel_case = True # action the list
+    #config_info.check_camel_case = False # overwrites the list (doh)
+    #fixname = 'camelcaseinkls'
 
     if main("js", ['--no-diffs', '-w',
                    '-f', fixname,

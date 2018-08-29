@@ -8,7 +8,7 @@ from config_info import check_camel_case, action_camel_case
 from config_info import (camel_case_fn_list, exclude_camel_case_fn_list,
                          camel_case_log)
 
-from util import camel, camelCase, strip_back_to_jumpscale_or_digitalme
+from util import camel, to_snake_case, strip_back_to_jumpscale_or_digitalme
 
 for sname in dir(syms):
     print (sname, getattr(syms, sname))
@@ -27,13 +27,13 @@ class FixCamelcasecallers(BaseFix):
         #print ("results transform", results)
         #print ("transform", repr(str(node)))
         fixnode = results
-        newname = camelCase(str(node))
+        newname = to_snake_case(str(node))
         fixnode.replace(Name(newname, prefix=fixnode.prefix))
 
     def match(self, node):
         if not isinstance(node, Leaf):
             return False
-        if camel(node.value): # already converted, ignore
+        if not camel(node.value): # already converted, ignore
             return False
         classname = get_container_classname(node)
         #print ("parentkls", node.parent.type, repr(node), node.parent, npp)

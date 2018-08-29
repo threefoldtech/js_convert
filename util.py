@@ -1,5 +1,5 @@
 def _camel(s):
-    return s != s.lower() and s != s.upper() and "_" not in s
+    return s != s.lower() and s != s.upper()
 
 def camel(s):
     if not _camel(s):
@@ -12,6 +12,7 @@ def camel(s):
     if s.startswith("_") and "_" not in s[1:] and not camel(s[1:]):
         return False
     return True
+
 def to_snake_case(not_snake_case):
     final = ''
     for i in range(len(not_snake_case)):
