@@ -22,9 +22,11 @@ if __name__ == '__main__':
     config_info.action_camel_case = True
 
     if config_info.action_camel_case:
-        fixname = 'camelcasecaller'
+        fixname = 'camelcasecallers'
     else:
         fixname = 'camelcaseinkls'
+
+    fixname = 'camelcase'
 
     if main("js", ['--no-diffs', '-w',
                    '-f', fixname,

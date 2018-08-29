@@ -36,7 +36,10 @@ def read_camel_runtime_log():
                 fname = strip_back_to_jumpscale_or_digitalme(k[0])
                 if not fname:
                     print ("skipping", line)
-                k[0] = fname
+                k[0] = str(fname)
+                k[1] = int(k[1]) # convert line to int
+                k[2] = str(k[2]) # sigh...
+                print ("adding", k)
                 camel_case_log[tuple(k)] = v
     except IOError: # don't do anything if file doesn't exist
         pass

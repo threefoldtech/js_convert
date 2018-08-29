@@ -29,3 +29,6 @@ def strip_back_to_jumpscale_or_digitalme(fname):
             return fname[x:]
     return None
 
+def camelCase(st):
+    output = ''.join(x for x in st.title() if x.isalnum())
+    return output[0].lower() + output[1:]
