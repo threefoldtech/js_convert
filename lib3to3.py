@@ -31,6 +31,11 @@ if __name__ == '__main__':
     else:
         fixname = 'camelcaseinkls'
 
+    # set this (and action_camel_case=True) to actually change
+    # called functions (NOT CALLERs)
+    # config_info.action_camel_case = True
+    # fixname = 'camelcaseinkls'
+
     if main("js", ['--no-diffs', '-w',
                    '-f', fixname,
                    '-n', filename]):
