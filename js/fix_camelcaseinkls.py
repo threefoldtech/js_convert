@@ -49,17 +49,21 @@ class FixCamelcaseinkls(BaseFix):
             if s.startswith("_") and "_" not in s[1:] and not camel(s[1:]):
                 print ("skip ", s)
                 return False
+            if self.filename.endswith("__init__.py"):
+                modname = os.path.dirname(self.filename)
+                modname = os.path.split(modname)[0]
+            else:
+                modname = os.path.basename(self.filename)
+                modname = os.path.splitext(modname)[0]
+            fn_name = "%s.%s.%s" % (modname, classname, node.value)
             if check_camel_case:
-                if self.filename.endswith("__init__.py"):
-                    modname = os.path.dirname(self.filename)
-                    modname = os.path.split(modname)[0]
-                else:
-                    modname = os.path.basename(self.filename)
-                    modname = os.path.splitext(modname)[0]
-                fn_name = "%s.%s.%s" % (modname, classname, node.value)
                 if fn_name not in camel_case_fn_list:
                     camel_case_fn_list.append(fn_name)
             if not action_camel_case:
+                return False
+            # ok so we are going to action things here, but check it's
+            # in the list first
+            if fn_name not in camel_case_fn_list:
                 return False
             # actioning to be done
             return node
